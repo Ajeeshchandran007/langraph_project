@@ -54,39 +54,6 @@ class NewsAnalysisState(TypedDict):
     max_iterations: int
     is_validated: bool
 
-# Sample knowledge base for RAG (updated with IPL focus)
-sample_documents = [
-    "IPL 2024 was won by Kolkata Knight Riders, defeating Sunrisers Hyderabad in the final at Chennai.",
-    "Mumbai Indians have won the IPL title 5 times (2013, 2015, 2017, 2019, 2020), making them the most successful team.",
-    "Chennai Super Kings have won the IPL 4 times (2010, 2011, 2018, 2021) and are known for their consistent performance.",
-    "Virat Kohli holds the record for most runs in IPL history with over 7000 runs for Royal Challengers Bangalore.",
-    "MS Dhoni is the most successful IPL captain with 4 titles with Chennai Super Kings and is known as Captain Cool.",
-    "IPL 2023 was won by Chennai Super Kings, beating Gujarat Titans in the final at Ahmedabad.",
-    "Royal Challengers Bangalore have never won an IPL title despite reaching three finals (2009, 2011, 2016).",
-    "Lasith Malinga holds the record for most wickets by a bowler in IPL playoffs with 51 wickets.",
-    "The IPL was founded in 2008 and the first season was won by Rajasthan Royals under Shane Warne's captaincy.",
-    "Sunrisers Hyderabad won their only IPL title in 2016, defeating Royal Challengers Bangalore in the final."
-]
-
-# Initialize RAG system
-def initialize_rag_system():
-    """Initialize the RAG system with IPL-focused documents"""
-    documents = [Document(page_content=doc) for doc in sample_documents]
-    
-    text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=500,
-        chunk_overlap=50
-    )
-    
-    split_docs = text_splitter.split_documents(documents)
-    
-    # Create FAISS vector store
-    vectorstore = FAISS.from_documents(split_docs, embeddings)
-    
-    return vectorstore.as_retriever(search_kwargs={"k": 3})
-
-# Initialize RAG retriever
-#rag_retriever = initialize_rag_system()
 
 # Node 1: Updated Supervisor Node with IPL Focus
 def supervisor_node(state: NewsAnalysisState) -> NewsAnalysisState:
