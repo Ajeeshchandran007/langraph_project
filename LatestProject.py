@@ -2,7 +2,7 @@
 import os
 from typing import TypedDict, Literal, List, Dict, Any, Annotated
 from langgraph.graph import Graph, StateGraph, END, add_messages
-from langchain_community.chat_models import ChatOllama
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_community.tools.tavily_search import TavilySearchResults
 from langchain_community.vectorstores import FAISS
 from langchain_huggingface import HuggingFaceEmbeddings
@@ -10,6 +10,7 @@ from langchain_community.document_loaders import TextLoader, DirectoryLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.schema import Document, BaseMessage, HumanMessage, AIMessage, SystemMessage
 from langchain.prompts import ChatPromptTemplate
+from dotenv import load_dotenv
 import json
 import logging
 
@@ -17,12 +18,17 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# API Keys - Replace with your actual keys
-TAVILY_API_KEY="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"
-GEMINI_API_KEY="AIzaSyDU7-9AukcMT07VbeLVt9ZXZwPWFGV305o"
+load_dotenv()
+
+TAVILY_API_KEY= os.getenv("TAVILY_API_KEY")
+GEMINI_API_KEY= os.getenv("GEMINI_API_KEY")
 
 # Initialize models and tools
-model = ChatOllama(model="llama3.2", temperature=0.1)
+model = ChatGoogleGenerativeAI(
+    model="gemini-1.5-flash",
+    google_api_key=GEMINI_API_KEY,
+    temperature=0.1
+)
 
 tavily_search = TavilySearchResults(
     max_results=5,
