@@ -97,11 +97,11 @@ def supervisor_node(state: NewsAnalysisState) -> NewsAnalysisState:
         
         # Validate decision
         valid_decisions = ["llm_call", "rag", "web_crawler"]
-        if decision not in valid_decisions:
+        if decision in valid_decisions:
             decision = "llm_call"  # Default fallback
         
         state["supervisor_decision"] = decision
-        state["iteration_count"] = iteration_count + 1
+        state["iteration_count"] = iteration_count
         
         logger.info(f"Supervisor decision: {decision}")
         
@@ -609,4 +609,5 @@ if __name__ == "__main__":
         result = run_news_analysis(query)
         print(result)
         print("\n" + "="*80 + "\n")
+
 
