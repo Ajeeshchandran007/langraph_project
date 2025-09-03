@@ -90,7 +90,7 @@ def supervisor_node(state: NewsAnalysisState) -> NewsAnalysisState:
     try:
         response = decision_chain.invoke({
             "query": query,
-            "iteration_count": iteration_count
+            "iteration_count": iteration_count + 1
         })
         
         decision = response.content.strip().lower()
@@ -609,5 +609,6 @@ if __name__ == "__main__":
         result = run_news_analysis(query)
         print(result)
         print("\n" + "="*80 + "\n")
+
 
 
